@@ -40,22 +40,23 @@ data = [
 
 
 def main(lines):
-    valid_num = 0
+    valid_passwords_num = 0
     for line in lines:
         count_str, letter_dirty, password = line.strip().split(" ")
         letter = letter_dirty[0]
         first_index, second_index = count_str.split("-")
-        first_index = int(first_index) - 1
-        second_index = int(second_index) - 1
 
-        if (password[first_index] == letter) != (password[second_index] == letter):
-            valid_num += 1
+        if (password[int(first_index) - 1] == letter) != (password[int(second_index) - 1] == letter):
+            valid_passwords_num += 1
 
         print(
-            f"password: {password}, policy: {first_index}-{second_index} {letter}, first occ: {password[first_index] == letter} second occ {password[second_index] == letter}"
+            f"password: {password}, "
+            f"policy: {first_index}-{second_index} {letter}, "
+            f"first occ: {password[int(first_index) - 1] == letter}, "
+            f"second occ {password[int(second_index) - 1] == letter}"
         )
 
-    return valid_num
+    return valid_passwords_num
 
 
 def test():
