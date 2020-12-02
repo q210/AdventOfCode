@@ -19,12 +19,15 @@ data = [
         241861950,
     ],
     ["2020", 0],
-    ["""1
+    [
+        """1
 1930
 80
 20
 10
-5""", 1544000]
+5""",
+        1544000,
+    ],
 ]
 
 
@@ -52,7 +55,9 @@ def main(list_of_number_strings, limit=2020):
             expected_in_list = limit - number - option_in_list
             expected[expected_in_list] = [number, option_in_list]
             expected[option_in_list] = [number, expected_in_list]
-            print('base:', number, ', option in list:', option_in_list, ', expecting in list:', expected_in_list)
+            print(
+                "base:", number, ", option in list:", option_in_list, ", expecting in list:", expected_in_list,
+            )
             j -= 1
 
     return 0
@@ -61,7 +66,7 @@ def main(list_of_number_strings, limit=2020):
 def test():
     errors = False
     for input, test_result in data:
-        result = main(input.split('\n'))
+        result = main(input.split("\n"))
 
         print(input, ", expected:", test_result, ", actual:", result)
         try:
