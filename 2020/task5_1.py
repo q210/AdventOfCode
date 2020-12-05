@@ -46,17 +46,12 @@ data = [["FBFBBFFRLR", 357,], ["BFFFBBFRRR", 567,], ["FFFBBBFRRR", 119], ["BBFFB
 
 
 def main(boarding_passes):
-    max_num = 0
-    for bpass in boarding_passes:
-        bpass = bpass.strip()
-        row_num = int(bpass[:7].replace("B", "1").replace("F", "0"), 2)
-        col_num = int(bpass[7:].replace("R", "1").replace("L", "0"), 2)
-
-        result = row_num * 8 + col_num
-        if result > max_num:
-            max_num = result
-
-    return max_num
+    return max(
+        [
+            int(bpass.strip().replace("B", "1").replace("F", "0").replace("R", "1").replace("L", "0"), 2)
+            for bpass in boarding_passes
+        ]
+    )
 
 
 def test():
