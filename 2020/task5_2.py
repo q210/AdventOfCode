@@ -17,26 +17,24 @@ data = []
 
 
 def main(boarding_passes):
-    ids = []
+    min_num = None
+    max_num = 0
+    summ = 0
     for bpass in boarding_passes:
         bpass = bpass.strip()
         row_num = int(bpass[:7].replace("B", "1").replace("F", "0"), 2)
         col_num = int(bpass[7:].replace("R", "1").replace("L", "0"), 2)
 
         result = row_num * 8 + col_num
-        ids.append(result)
+        if result > max_num:
+            max_num = result
 
-    ids = sorted(ids)
+        if min_num is None or result < min_num:
+            min_num = result
 
-    cursor = ids[0]
-    for id in ids[1:]:
-        if cursor + 1 == id:
-            cursor = id
-            continue
+        summ += result
 
-        return cursor + 1
-
-    return 0
+    return (max_num - min_num + 1) * (max_num + min_num) / 2 - summ
 
 
 def test():
