@@ -56,12 +56,7 @@ def main(list_of_number_strings, limit=2020):
             expected[expected_in_list] = [number, option_in_list]
             expected[option_in_list] = [number, expected_in_list]
             print(
-                "base:",
-                number,
-                ", option in list:",
-                option_in_list,
-                ", expecting in list:",
-                expected_in_list,
+                "base:", number, ", option in list:", option_in_list, ", expecting in list:", expected_in_list,
             )
             j -= 1
 
