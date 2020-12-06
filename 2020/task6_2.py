@@ -67,18 +67,10 @@ b""",
 
 
 def main(groups_data):
-    return sum(
-        map(
-            lambda group: len(
-                reduce(
-                    lambda acc, person_choice: set(person_choice) & acc if acc is not None else set(person_choice),
-                    group.split("\n"),
-                    None,
-                )
-            ),
-            groups_data,
-        )
-    )
+    to_group_uniq = lambda acc, person_choice: set(person_choice) if acc is None else set(person_choice) & acc
+    calc_group_uniq_count = lambda group: len(reduce(to_group_uniq, group.split("\n"), None))
+
+    return sum(map(calc_group_uniq_count, groups_data))
 
 
 def test():
