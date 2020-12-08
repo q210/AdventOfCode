@@ -27,8 +27,7 @@ In this example, a single shiny gold bag must contain 126 other bags.
 How many individual bags are required inside your single shiny gold bag?
 """
 import sys
-from collections import Counter, defaultdict
-from functools import reduce
+from collections import defaultdict
 
 DEBUG = False
 data = [
@@ -58,28 +57,33 @@ dark violet bags contain no other bags.""",
 
 
 def main(rules, target_color="shiny gold"):
+    # building a map of rules: { <ancestor node color>: [<descendant node #1>, <descendant node #2> ...] }
     rules_map = defaultdict(list)
     for rule in rules:
-        root_color, leaves_str = rule.strip().strip(".").replace(" bags", "").replace(" bag", "").split(" contain ")
-        if leaves_str == "no other":
+        anc_node_color, desc_nodes_str = (
+            rule.strip().strip(".").replace(" bags", "").replace(" bag", "").split(" contain ")
+        )
+        if desc_nodes_str == "no other":
             continue
 
-        leaves = [bag_str.split(" ", 1) for bag_str in leaves_str.split(", ")]
-        rules_map[root_color] = [(int(num), color) for num, color in leaves]
+        desc_nodes = [bag_str.split(" ", 1) for bag_str in desc_nodes_str.split(", ")]
+        rules_map[anc_node_color] = [(int(num), color) for num, color in desc_nodes]
 
+    # using built map to find number of bags in all descendant nodes
     result_summ = 0
-    colors_to_check = rules_map[target_color]
+    nodes_to_check = rules_map[target_color]
 
-    while colors_to_check:
-        next_colors_to_check = []
+    while nodes_to_check:
+        next_nodes_to_check = []
 
-        for bags_num, color in colors_to_check:
+        for bags_num, color in nodes_to_check:
             if color in rules_map:
-                next_colors_to_check += [(num * bags_num, color) for num, color in rules_map[color]]
+                # when checking next round of nodes their numbers need to be multiplied by number of their ancestors
+                next_nodes_to_check += [(num * bags_num, color) for num, color in rules_map[color]]
 
             result_summ += bags_num
 
-        colors_to_check = next_colors_to_check
+        nodes_to_check = next_nodes_to_check
 
     return result_summ
 

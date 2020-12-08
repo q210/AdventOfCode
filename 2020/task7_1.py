@@ -31,8 +31,7 @@ So, in this example, the number of bag colors that can eventually contain at lea
 How many bag colors can eventually contain at least one shiny gold bag? (The list of rules is quite long; make sure you get all of it.)
 """
 import sys
-from collections import Counter, defaultdict
-from functools import reduce
+from collections import defaultdict
 
 DEBUG = False
 data = [
@@ -66,21 +65,18 @@ maroon bag contain 1 black bag, 2 white bags.""",
 
 
 def main(rules, target_color="shiny gold"):
+    # building a map of rules: { <descendant node color>: [<ancestor node #1 color>, <ancestor node #2 color> ...] }
     rules_map = defaultdict(list)
     for rule in rules:
-        root_color, leaves_str = rule.strip(".").replace(" bags", "").replace(" bag", "").split(" contain ")
-
-        if root_color == target_color:
+        anc_node_color, desc_nodes_str = rule.strip(".").replace(" bags", "").replace(" bag", "").split(" contain ")
+        if anc_node_color == target_color or desc_nodes_str == "no other":
             continue
 
-        if leaves_str == "no other":
-            leaves = []
-        else:
-            leaves = [bag_str.split(" ", 1)[-1] for bag_str in leaves_str.split(", ")]
+        desc_nodes = [bag_str.split(" ", 1)[-1] for bag_str in desc_nodes_str.split(", ")]
+        for desc_node_color in desc_nodes:
+            rules_map[desc_node_color].append(anc_node_color)
 
-        for leave_color in leaves:
-            rules_map[leave_color].append(root_color)
-
+    # using built map to find all ancestors of the target node
     result_color_set = set()
     colors_to_check = set(rules_map[target_color])
 
