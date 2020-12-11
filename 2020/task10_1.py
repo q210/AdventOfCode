@@ -139,12 +139,12 @@ data = [
 
 def main(number_lines: List[str]):
     numbers = sorted(map(int, number_lines))
-    cursor = numbers[0]
+    prev = numbers[0]
     one_sums = 1 if numbers[0] == 1 else 0
     three_sums = 1  # device joltage is max(numbers) + 3
     for number in numbers[1:]:
-        diff = number - cursor
-        cursor = number
+        diff = number - prev
+        prev = number
         if diff == 1:
             one_sums += 1
         elif diff == 3:
