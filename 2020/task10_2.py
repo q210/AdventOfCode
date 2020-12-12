@@ -109,22 +109,25 @@ data = [
 
 def main(number_lines: List[int]):
     """
-    To find a solution, imagine that you have 4 adapters with output [1, 2, 3, 4, 5] jolts
-    and a wall socket with 0 jolts output.
-    To connect 1 jolt adapter to the wall according to the rules you have only 1 option - direct connection.
-    To connect 2 jolt adapter to the wall you have 2 options - 1 jolt adapter or a direct connection.
-    To connect 3 jolt adapter to the wall you have 4 options - 2 ways to connect through 2 jolt adapter,
-     1 way through 1 jolt adapter or a direct connection.
-    To connect 4 jolt adapter your choice is only through 3-, 2-, or 1- jolt adapters.
+    To find a solution, imagine that you have 5 adapters with outputs of [1, 2, 3, 4, 5] jolts
+     and a wall socket with 0 jolts output.
+    To connect 1-jolt adapter to the wall according to the rules you have only 1 option - direct connection.
+    To connect 2-jolt adapter to the wall you have 2 options - 1-jolt adapter or a direct connection.
+    To connect 3-jolt adapter to the wall you have 4 options - 2 ways to connect through 2-jolt adapter,
+     1 way through 1-jolt adapter or a direct connection.
+    To connect 4-jolt adapter your choice is only through 3-, 2-, or 1- jolt adapters.
     Direct connection has incorrect input parameters.
     That means that you have 4 + 2 + 1 options to connect 4 jolt adapter to the wall.
-    The same with 5 jolt adapter - only through 4-, 3-, 2- adapters, and so on.
+    The same with 5-jolt adapter - only through 4-, 3-, 2- adapters, and so on and so on.
 
-    If you don't have some adapters, then you just has no option of connecting through them, and that's okay.
+    If your personal input doesn't have some specific adapters - that's okay,
+     that means you just have zero options of connecting through them.
+    According to the rules you always will have at least one of 3 adapters needed anyway.
+
     Written this way the puzzle is pretty straightforward.
     """
     numbers = sorted(number_lines)
-    combination_count = {0: 1}
+    combination_count = {0: 1}  # initial connect option - direct connection
     for num in numbers:
         combination_count[num] = 0
         combination_count[num] += combination_count.get(num - 1, 0)
